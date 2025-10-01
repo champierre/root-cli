@@ -1,4 +1,4 @@
-# root-cli
+# rt0-cli
 
 CLI tool to control iRobot Root robot via Bluetooth Low Energy (BLE).
 
@@ -51,7 +51,7 @@ node cli.js rotate -- -90
 
 - **Daemon mode**: `node cli.js` connects to the robot and maintains the BLE connection
 - **Command mode**: `node cli.js <command>` sends a command to the daemon via Unix socket
-- IPC socket: `/tmp/root-cli/daemon.sock`
+- IPC socket: `/tmp/rt0-cli/daemon.sock`
 - Commands are executed by the daemon process, which maintains the BLE connection
 
 ## Requirements

@@ -1,4 +1,4 @@
-# root-cli 実装メモ
+# rt0-cli 実装メモ
 
 ## 実装方針
 
@@ -11,7 +11,7 @@
 
 1. **デーモンプロセス**: `node cli.js` で起動し、Root robot に BLE 接続を維持
 2. **コマンドプロセス**: `node cli.js <command>` で起動し、Unix ソケット経由でデーモンにコマンドを送信
-3. **IPC通信**: `/tmp/root-cli/daemon.sock` を使用してプロセス間通信
+3. **IPC通信**: `/tmp/rt0-cli/daemon.sock` を使用してプロセス間通信
 
 ### ファイル構成
 

@@ -1,11 +1,11 @@
 {
-  "name": "root-cli",
+  "name": "rt0-cli",
   "version": "1.0.0",
   "description": "CLI tool to control iRobot Root robot",
   "main": "index.js",
   "type": "module",
   "bin": {
-    "root-cli": "./cli.js"
+    "rt0-cli": "./cli.js"
   },
   "scripts": {
     "start": "node cli.js"

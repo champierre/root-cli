@@ -8,7 +8,7 @@ import { rotate } from './commands/rotate.js';
 const program = new Command();
 
 program
-  .name('root-cli')
+  .name('rt0-cli')
   .description('CLI tool to control iRobot Root robot')
   .version('1.0.0')
   .allowUnknownOption(true);
