@@ -4,6 +4,16 @@ CLI tool to control iRobot Root robot via Bluetooth Low Energy (BLE).
 
 ## Installation
 
+### Using npx (recommended)
+
+No installation required. You can run commands directly using npx:
+
+```bash
+npx rt0-cli
+```
+
+### Local development
+
 ```bash
 npm install
 ```
@@ -15,6 +25,8 @@ npm install
 Run without any command to connect to Root robot and maintain the connection:
 
 ```bash
+npx rt0-cli
+# or for local development
 node cli.js
 ```
 
@@ -29,6 +41,8 @@ The daemon will:
 While the daemon is running, open another terminal and send commands:
 
 ```bash
+npx rt0-cli forward <distance>
+# or for local development
 node cli.js forward <distance>
 ```
 
@@ -42,15 +56,15 @@ node cli.js forward <distance>
 
 Examples:
 ```bash
-node cli.js forward 100
-node cli.js rotate 90
-node cli.js penUp
-node cli.js penDown
-node cli.js playNote 440 1000
+npx rt0-cli forward 100
+npx rt0-cli rotate 90
+npx rt0-cli penUp
+npx rt0-cli penDown
+npx rt0-cli playNote 440 1000
 
 # For negative values, use -- before the value
-node cli.js forward -- -100
-node cli.js rotate -- -90
+npx rt0-cli forward -- -100
+npx rt0-cli rotate -- -90
 ```
 
 ## Architecture
