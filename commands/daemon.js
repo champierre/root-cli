@@ -1,6 +1,6 @@
 import noble from '@abandonware/noble';
 import { createIPCServer, ensureSocketDir, cleanupSocket, SOCKET_PATH } from '../lib/ipc.js';
-import { setDistance, appendCrc } from '../lib/protocol.js';
+import { setDistance, setAngle, appendCrc } from '../lib/protocol.js';
 
 const ROOT_SERVICE_UUID = '48c5d828ac2a442d97a30c9822b04979';
 const UART_SERVICE = '6e400001b5a3f393e0a9e50e24dcca9e';
@@ -18,36 +18,30 @@ async function handleCommand(message) {
   switch (command) {
     case 'forward':
       return await handleForward(params.distance);
+    case 'rotate':
+      return await handleRotate(params.angle);
     default:
       throw new Error(`Unknown command: ${command}`);
   }
 }
 
-async function handleForward(distance) {
-  console.log(`Executing forward command: ${distance}mm`);
-
+async function sendRobotCommand(commandData, key, commandName) {
   if (!txChar || !rxChar) {
     throw new Error('Not connected to Root robot');
   }
 
   return new Promise(async (resolve, reject) => {
-    const key = '1-8'; // driveDistance command key
-
-    // Set up response handler
     commandResolvers.set(key, () => {
-      console.log('Forward command completed');
+      console.log(`${commandName} completed`);
       resolve({ status: 'completed' });
     });
 
-    // Send command
-    const commandData = setDistance(Number(distance));
     const commandWithCrc = appendCrc(commandData);
 
     try {
       await txChar.writeAsync(commandWithCrc, false);
       console.log('Command sent to robot');
 
-      // Timeout after 10 seconds
       setTimeout(() => {
         if (commandResolvers.has(key)) {
           commandResolvers.delete(key);
@@ -59,6 +53,18 @@ async function handleForward(distance) {
       reject(error);
     }
   });
+}
+
+async function handleForward(distance) {
+  console.log(`Executing forward command: ${distance}mm`);
+  const commandData = setDistance(Number(distance));
+  return sendRobotCommand(commandData, '1-8', 'Forward command');
+}
+
+async function handleRotate(angle) {
+  console.log(`Executing rotate command: ${angle} degrees`);
+  const commandData = setAngle(Number(angle));
+  return sendRobotCommand(commandData, '1-12', 'Rotate command');
 }
 
 export async function startDaemon() {
@@ -124,8 +130,8 @@ export async function startDaemon() {
         console.log('Response received:', response);
 
         // Handle command completion responses
-        if (response.length >= 2 && response[0] === 1 && response[1] === 8) {
-          const key = '1-8';
+        if (response.length >= 2) {
+          const key = `${response[0]}-${response[1]}`;
           const resolver = commandResolvers.get(key);
           if (resolver) {
             resolver();

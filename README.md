@@ -34,11 +34,17 @@ node cli.js forward <distance>
 
 #### Available Commands
 
-- `forward <distance>` - Move forward by specified distance in millimeters
+- `forward <distance>` - Move forward by specified distance in millimeters (negative value to move backward)
+- `rotate <angle>` - Rotate by specified angle in degrees (negative value to rotate counter-clockwise)
 
-Example:
+Examples:
 ```bash
 node cli.js forward 100
+node cli.js rotate 90
+
+# For negative values, use -- before the value
+node cli.js forward -- -100
+node cli.js rotate -- -90
 ```
 
 ## Architecture
