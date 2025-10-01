@@ -1,0 +1,20 @@
+{
+  "name": "root-cli",
+  "version": "1.0.0",
+  "description": "CLI tool to control iRobot Root robot",
+  "main": "index.js",
+  "type": "module",
+  "bin": {
+    "root-cli": "./cli.js"
+  },
+  "scripts": {
+    "start": "node cli.js"
+  },
+  "keywords": ["irobot", "root", "cli", "bluetooth"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@abandonware/noble": "^1.9.2-15",
+    "commander": "^11.0.0"
+  }
+}
