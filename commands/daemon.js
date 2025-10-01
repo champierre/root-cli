@@ -1,6 +1,6 @@
 import noble from '@abandonware/noble';
 import { createIPCServer, ensureSocketDir, cleanupSocket, SOCKET_PATH } from '../lib/ipc.js';
-import { setDistance, setAngle, appendCrc } from '../lib/protocol.js';
+import { setDistance, setAngle, setPenUp, setPenDown, appendCrc } from '../lib/protocol.js';
 
 const ROOT_SERVICE_UUID = '48c5d828ac2a442d97a30c9822b04979';
 const UART_SERVICE = '6e400001b5a3f393e0a9e50e24dcca9e';
@@ -20,6 +20,10 @@ async function handleCommand(message) {
       return await handleForward(params.distance);
     case 'rotate':
       return await handleRotate(params.angle);
+    case 'penUp':
+      return await handlePenUp();
+    case 'penDown':
+      return await handlePenDown();
     default:
       throw new Error(`Unknown command: ${command}`);
   }
@@ -65,6 +69,18 @@ async function handleRotate(angle) {
   console.log(`Executing rotate command: ${angle} degrees`);
   const commandData = setAngle(Number(angle));
   return sendRobotCommand(commandData, '1-12', 'Rotate command');
+}
+
+async function handlePenUp() {
+  console.log('Executing pen up command');
+  const commandData = setPenUp();
+  return sendRobotCommand(commandData, '2-0', 'Pen up command');
+}
+
+async function handlePenDown() {
+  console.log('Executing pen down command');
+  const commandData = setPenDown();
+  return sendRobotCommand(commandData, '2-0', 'Pen down command');
 }
 
 export async function startDaemon() {

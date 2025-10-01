@@ -4,6 +4,8 @@ import { Command } from 'commander';
 import { startDaemon } from './commands/daemon.js';
 import { forward } from './commands/forward.js';
 import { rotate } from './commands/rotate.js';
+import { penUp } from './commands/penUp.js';
+import { penDown } from './commands/penDown.js';
 
 const program = new Command();
 
@@ -22,6 +24,16 @@ program
   .command('rotate <angle>')
   .description('Rotate by specified angle in degrees (use -- before negative values)')
   .action(rotate);
+
+program
+  .command('penUp')
+  .description('Raise the pen')
+  .action(penUp);
+
+program
+  .command('penDown')
+  .description('Lower the pen')
+  .action(penDown);
 
 // If no command provided, start daemon mode
 if (process.argv.length === 2) {
