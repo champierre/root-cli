@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
 import { Command } from 'commander';
-import { connect } from './commands/connect.js';
+import { startDaemon } from './commands/daemon.js';
+import { forward } from './commands/forward.js';
 
 const program = new Command();
 
@@ -11,8 +12,13 @@ program
   .version('1.0.0');
 
 program
-  .command('connect')
-  .description('Connect to Root robot via BLE')
-  .action(connect);
+  .command('forward <distance>')
+  .description('Move forward by specified distance in mm')
+  .action(forward);
 
-program.parse();
+// If no command provided, start daemon mode
+if (process.argv.length === 2) {
+  startDaemon();
+} else {
+  program.parse();
+}
