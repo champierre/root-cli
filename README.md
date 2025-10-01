@@ -36,11 +36,17 @@ node cli.js forward <distance>
 
 - `forward <distance>` - Move forward by specified distance in millimeters (negative value to move backward)
 - `rotate <angle>` - Rotate by specified angle in degrees (negative value to rotate counter-clockwise)
+- `penUp` - Raise the pen
+- `penDown` - Lower the pen
+- `playNote <frequency> <duration>` - Play a note with specified frequency (Hz) and duration (ms)
 
 Examples:
 ```bash
 node cli.js forward 100
 node cli.js rotate 90
+node cli.js penUp
+node cli.js penDown
+node cli.js playNote 440 1000
 
 # For negative values, use -- before the value
 node cli.js forward -- -100

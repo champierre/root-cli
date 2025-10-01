@@ -6,6 +6,7 @@ import { forward } from './commands/forward.js';
 import { rotate } from './commands/rotate.js';
 import { penUp } from './commands/penUp.js';
 import { penDown } from './commands/penDown.js';
+import { playNote } from './commands/playNote.js';
 
 const program = new Command();
 
@@ -34,6 +35,11 @@ program
   .command('penDown')
   .description('Lower the pen')
   .action(penDown);
+
+program
+  .command('playNote <frequency> <duration>')
+  .description('Play a note with specified frequency (Hz) and duration (ms)')
+  .action(playNote);
 
 // If no command provided, start daemon mode
 if (process.argv.length === 2) {

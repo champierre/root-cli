@@ -1,6 +1,6 @@
 import noble from '@abandonware/noble';
 import { createIPCServer, ensureSocketDir, cleanupSocket, SOCKET_PATH } from '../lib/ipc.js';
-import { setDistance, setAngle, setPenUp, setPenDown, appendCrc } from '../lib/protocol.js';
+import { setDistance, setAngle, setPenUp, setPenDown, setNote, appendCrc } from '../lib/protocol.js';
 
 const ROOT_SERVICE_UUID = '48c5d828ac2a442d97a30c9822b04979';
 const UART_SERVICE = '6e400001b5a3f393e0a9e50e24dcca9e';
@@ -24,6 +24,8 @@ async function handleCommand(message) {
       return await handlePenUp();
     case 'penDown':
       return await handlePenDown();
+    case 'playNote':
+      return await handlePlayNote(params.frequency, params.duration);
     default:
       throw new Error(`Unknown command: ${command}`);
   }
@@ -81,6 +83,12 @@ async function handlePenDown() {
   console.log('Executing pen down command');
   const commandData = setPenDown();
   return sendRobotCommand(commandData, '2-0', 'Pen down command');
+}
+
+async function handlePlayNote(frequency, duration) {
+  console.log(`Executing play note command: frequency=${frequency}Hz, duration=${duration}ms`);
+  const commandData = setNote(Number(frequency), Number(duration));
+  return sendRobotCommand(commandData, '5-0', 'Play note command');
 }
 
 export async function startDaemon() {
